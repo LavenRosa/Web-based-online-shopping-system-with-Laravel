@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -28,15 +30,26 @@ class BrandController extends Controller
             'name'=>$request->brandname,
         ];
         Brand::where('id',$id)->update($brand);
-        return redirect()->route('BrandList')->with(['success','Successfully Updated']);
+        return redirect()->route('BrandList')->with('success','Successfully Updated');
     }
     //delete
     public function delete($id){
        Brand::where('id',$id)->delete();
-        return redirect()->route('BrandList')->with(['success','Successfully Deleted']);
+        return redirect()->route('BrandList')->with('success','Successfully Deleted');
     }
     public function list(){
         $brands = Brand::get();
         return view('backend.brand.list', compact('brands'));
+    }
+    public function show($brand){
+        $brand = Brand::where('id',$brand)->firstOrFail();
+        $items = Item::where('brand_id', $brand->id)->get();
+        return view('frontend.brand', compact('brand','items'));
+    }
+    public function frontend()
+    {
+        $cats = Category::Orderby('created_at', 'desc')->get();
+        $bds = Brand::all();
+        return view('layout.frontend', compact('cats', 'bds'));
     }
 }

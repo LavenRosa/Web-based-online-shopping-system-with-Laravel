@@ -21,6 +21,9 @@
                     <div class="mb-3">
                         <label for="categoryName" class="form-label">Name</label>
                         <input type="text" class="form-control" name="categoryName" id="categoryName" >
+                        @error('categoryName') 
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary btn-sm btn-icon-split mb-3">

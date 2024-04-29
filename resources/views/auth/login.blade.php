@@ -1,6 +1,6 @@
-@extends('layout.frontend')
-
+@extends('layouts.app')
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -14,7 +14,7 @@
                             <h2>Log In</h2>
                         </div>
                         <div class="card-body" style="width: 400px;">
-                        <form method="POST" action="{{ route('login') }}">
+                        <form method="POST" action="{{ route('Login') }}">
                             @csrf
 
                             <div class="row mb-3">
@@ -59,15 +59,15 @@
 
                             <div class="row mb-0" style="margin-right: 50px;">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" style="background-color: lightsalmon; border-color:lightsalmon;">
                                         {{ __('Login') }}
                                     </button>
 
-                                    @if (Route::has('password.request'))
+                                    {{-- @if (Route::has('password.request'))
                                         <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </div>
                         </form>
@@ -78,4 +78,5 @@
         </div>
     </div>
 </div>
+
 @endsection

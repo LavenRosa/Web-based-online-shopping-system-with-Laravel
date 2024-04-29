@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+
 class LoginController extends Controller
 {
     /*
@@ -38,24 +39,36 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    public function showuserlogin(){
-        return view('auth.login');
+
+    public function showLogin(){
+        return view('auth.login'); //resources->views->auth->login
     }
-    public function userlogin(Request $request){
+
+    public function login(Request $request){
+        // $credentails = $request->validate([
+        //     'email' => ['required', 'email'],
+        //     'password' => ['required']
+        // ]);
         $credentials = $request->validate([
-            'email' => ['required','email'],
-            'password' => ['required']
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8'],
+        ], [
+            'email.required' => 'Please fill out this field.',
+            'password.required' => 'Please fill out this field.',
         ]);
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return redirect()->route('ItemList');
+            return redirect()->intended('profile');
         }
+
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records'
+            'email' => 'The provided credentials do not match our records.'
         ])->onlyInput('email');
     }
-    public function userlogout(){
+
+    // logout function
+    public function logout(){
         Auth::logout();
-        return redirect()->route('AdminLogin');
+        return redirect()->route('ShowLogin');
     }
 }

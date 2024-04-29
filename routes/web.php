@@ -3,12 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AddToCartController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ShowLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +27,9 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('frontend.index');
-// });
-
-//home
+//home section
 Route::get('/', [HomeController::class, 'home'])->name('HomePage');
+Route::get('about', [HomeController::class, 'showabout'])->name('AboutUs');
 
 //backend
 Route::get('/backend', function () {
@@ -36,6 +39,11 @@ Route::get('/backend', function () {
 Route::get('/backend/category', function () {
     return view('backend.category.index');
 });
+
+Route::get('admin/register', [AdminController::class, 'showadminregister'])->name('ShowAdminRegister');
+Route::post('admin/register', [AdminController::class, 'adminregister'])->name('AdminRegister');
+Route::get('admin/login', [AdminController::class, 'showadminlogin'])->name('ShowAdminLogin');
+Route::post('admin/login', [AdminController::class, 'adminlogin'])->name('AdminLogin');
 
 Route::get('/category/list', [CategoryController::class, 'list'])->name('CategoryList');
 Route::get('/category/createPage', [CategoryController::class, 'createPage'])->name('CategoryCreatePage');
@@ -50,6 +58,9 @@ Route::prefix('item')->group(function(){
     Route::get('list', [ItemController::class, 'list'])->name('ItemList');
     Route::get('createPage', [ItemController::class, 'createPage'])->name('ItemCreatePage');
     Route::post('create', [ItemController::class, 'create'])->name('ItemCreate');
+    Route::get('edit/{id}', [ItemController::class, 'edit'])->name('ItemEdit');
+    Route::post('update/{id}', [ItemController::class, 'update'])->name('ItemUpdate');
+    Route::get('delete/{id}', [ItemController::class, 'delete'])->name('ItemDelete');
 });
 //search
 Route::get('/item', [ItemController::class, 'search'])->name('ItemSearch');
@@ -63,18 +74,38 @@ Route::prefix('brand')->group(function(){
     Route::get('edit/{id}', [BrandController::class, 'edit'])->name('BrandEdit');
     Route::post('update/{id}', [BrandController::class, 'update'])->name('BrandUpdate');
     Route::get('delete/{id}', [BrandController::class, 'delete'])->name('BrandDelete');
+    Route::get('show/{brand}', [BrandController::class, 'show'])->name('Brand');
 });
 
-//authention
-Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('user/register', [RegisterController::class, 'createpage'])->name('ShowUserRegister');
-Route::get('/user/login', [LoginController::class, 'showuserlogin'])->name('ShowUserLogin');
-Route::post('/login', [LoginController::class, 'userlogin'])->name('UserLogin');
-Route::get('/user/logout', [LoginController::class, 'userlogout'])->name('UserLogout');
+
 //profile
-Route::get('profile', [ProfileController::class, 'profile'])->name('Profile');
+Route::post('/add-to-favorites/{item_id}', [ProfileController::class,'store'])->name('AddFavorite');
+Route::get('/remove-from-favorites/{item_id}', [ProfileController::class, 'delete'])->name('DeleteFavorite');
+
+Route::get('profile', [ProfileController::class, 'show'])->name('ShowProfile');
 
 //User section
-Route::get('/admin/profile', [UserController::class, 'showadminprofile'])->name('ShowAdminProfile');
-Route::post('/admin/prifile/update', [UserController::class, 'updateadminprofile'])->name('UpdateAdminProfile');
+Route::get('changepassword', [UserController::class, 'showchangepassword'])->name('ShowChangePassword');
+Route::post('changepassword', [UserController::class, 'changepassword'])->name('ChangePassword');
+Route::get('customer/list', [UserController::class, 'list'])->name('CustomerList');
+
+
+//Add to cart
+Route::post('/add-to-cart', [AddToCartController::class, 'addItem']);
+Route::get('cart', [AddToCartController::class, 'viewcart'])->name('cart');
+Route::post('delete-cart-item', [AddToCartController::class, 'deleteitem']);
+Route::post('update-cart', [AddToCartController::class, 'updatecart'])->name('UpdateCart');
+
+Route::get('checkout', [CheckoutController::class, 'index'])->name('checkoutPage');
+Route::post('place-order', [CheckoutController::class, 'placeorder'])->name('PlaceOrder');
+Route::get('order/list', [OrderController::class, 'list'])->name('OrderList');
+Route::get('order/{id}', [OrderController::class, 'delete'])->name('OrderDelete');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/login', [LoginController::class, 'showlogin'])->name('ShowLogin');
+Route::post('/login', [LoginController::class, 'login'])->name('Login');
+Route::get('/logout', [LoginController::class, 'logout'])->name('Logout');
+Route::get('/register', [RegisterController::class, 'register'])->name('ShowRegister');
+Route::post('/register', [RegisterController::class, 'customerregister'])->name('Register');

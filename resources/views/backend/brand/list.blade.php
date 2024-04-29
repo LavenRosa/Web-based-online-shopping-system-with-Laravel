@@ -1,6 +1,14 @@
 @extends('layout.backend')
 @section('content')
 <div class="card shadow mb-4 p-4">
+    @if (session('success'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{{ session('success')}}</li>
+            </ul>
+        </div>
+
+        @endif
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Brand</h6>
     </div>

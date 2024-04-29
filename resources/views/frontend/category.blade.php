@@ -13,7 +13,7 @@
             @endif
             <div class="col-lg-3 mb-4" style="margin-left: 20px;">
                 <a href="{{ route('ItemDetail', ['id' => $item->id ])}}">
-                    <img src="{{ asset( $item->image )}}"  alt="">
+                    <img src="{{ asset( $item->image )}}" style="width: 300px; height:  300px;"  alt="">
                 </a>
                 <div class="caption">
                     <h6>{{ $item->name }}</h6>

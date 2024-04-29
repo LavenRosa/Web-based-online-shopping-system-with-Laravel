@@ -1,5 +1,13 @@
 @extends('layout.backend')
 @section('content')
+@if (session('success'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{{ session('success')}}</li>
+            </ul>
+        </div>
+
+    @endif
 <div class="card shadow mb-4 p-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Item List</h6>
@@ -34,16 +42,12 @@
                         {{-- need to fix here --}}
                     <td class="">
                         <div class="d-flex">
-                            <a href="" class="btn btn-primary btn-sm btn-icon-split me-3">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-edit"></i>
-                                </span>
+                            <a href="{{ route('ItemEdit', $item->id )}}" class="btn btn-primary btn-sm btn-icon-split me-3">
+
                                 <span class="text">Edit</span>
                             </a>
-                            <a href="" class="btn btn-danger  btn-sm btn-icon-split me-3">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-edit"></i>
-                                </span>
+                            <a href="{{ route('ItemDelete', $item->id )}}" class="btn btn-danger  btn-sm btn-icon-split me-3">
+
                                 <span class="text">Delete</span>
                             </a>
                         </div>

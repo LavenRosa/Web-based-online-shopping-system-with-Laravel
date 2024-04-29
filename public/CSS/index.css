@@ -1,20 +1,20 @@
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 .top-navbar{
     width: 100%;
     height: 10vh;
     background-color: lightsalmon;
-    
+
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: space-between;
 }
     .top-navbar .other-links {
-        
+
         margin-right:50px;
         margin-top:5px;
     }
@@ -66,13 +66,13 @@
 }
 .top-nav .row1{
     justify-content: space-evenly;
-    
+
 }
 .top-navbar{
     width: 100%;
     height: 10vh;
     background-color: lightsalmon;
-    
+
     display: flex;
     align-items: center;
     text-align: center;
@@ -132,7 +132,7 @@ nav li a{
     border-radius: 20px;
     margin-bottom: 20px;
     margin-right: 20px;
-    
+
 }
 .second .row2 .col3{
     display: flex;
@@ -165,7 +165,7 @@ nav li a{
 }
 /*third section*/
 
-  
+
 .third .center {
     display: flex;
     justify-content: center;
@@ -247,7 +247,7 @@ form{
 }
 .form__input:focus{
     border-bottom-color: #008080;
-    box-shadow: 0 0 5px rgba(0,80,80,.4); 
+    box-shadow: 0 0 5px rgba(0,80,80,.4);
     border-radius: 4px;
 }
 .btn{
@@ -277,9 +277,9 @@ form{
 }
 .main-content #profile button{
     margin-top: 100px;
-    color: lightsalmon; 
-    background-color: white; 
-    width: 100px; 
+    color: lightsalmon;
+    background-color: white;
+    width: 100px;
     border-radius: 5%;
     border: 1px solid white;
 }
@@ -336,4 +336,14 @@ form{
     border: 1px solid lightsalmon;
     height: 30px;
     border-radius: 5%;
+}
+/*checkout*/
+.checkout-form label{
+    font-size: 12px;
+    font-weight: 700;
+}
+.checkout-form input{
+    font-size: 14px;
+    padding: 5px;
+    font-weight: 400;
 }

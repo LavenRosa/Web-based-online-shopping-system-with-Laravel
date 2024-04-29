@@ -20,6 +20,9 @@
                 <div class="mb-3">
                     <label for="itemname" class="form-label">Name</label>
                     <input type="text" class="form-control" name="itemname" id="itemname" placeholder="Item">
+                    @error('name')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Category</label>
@@ -29,6 +32,9 @@
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
+                    @error('category')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="brand" class="form-label">Brand</label>
@@ -38,14 +44,18 @@
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                         @endforeach
                     </select>
+                    @error('brand')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="itemprice" class="form-label">Price</label>
                     <input type="text" class="form-control @error('itemprice') is-invalid @enderror" name="itemprice" id="itemprice">
                     @error('itemprice')
-                    <div class="invalid-feedback">{{ $validate }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
                 <div class="mb-3">
                     <label for="itemimage" class="form-label">Image</label>
                     <input type="file" class="form-control @error('itemimage') is-invalid @enderror" name="itemimage" id="itemimage">

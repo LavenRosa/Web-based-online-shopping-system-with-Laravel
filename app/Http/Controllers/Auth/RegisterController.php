@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -23,53 +24,73 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
+
     protected $redirectTo = '/home';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    public function createpage(){
+
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //     ]);
+    // }
+
+    // protected function create(array $data)
+    // {
+    //    $user = User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => Hash::make($data['password']),
+    //     ]);
+    //     if($user){
+    //         return redirect()->route('ShowLogin');
+    //     }
+    // }
+
+    public function register(){
         return view('auth.register');
     }
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+
+    public function customerregister(Request $request){
+        // $validate = Validator($request->all(), [
+        //     'name'=>'required|string',
+        //     'email'=>'required|email',
+        //     'password'=>'required|min:4|confirmed'
+        // ]);
+        $validate = Validator($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed' 
+        ], [
+            'name.required' => 'Please fill out this field.',
+            'email.required' => 'Please fill out this field.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'Email is already taken.',
+            'password.required' => 'Please fill out this field.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Password confirmation does not match.',
         ]);
+        if($validate->fails()){
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+        $register = User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>Hash::make($request['password']),
+        ]);
+        if($register){
+            return redirect()->route('HomePage')->with('success','Successfully Registered');
+        }else{
+            return view('errors.500Page');
+        }
     }
 }

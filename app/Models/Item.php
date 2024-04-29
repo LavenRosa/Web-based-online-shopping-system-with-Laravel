@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Item;
+use App\Models\Order;
 use App\Models\Category;
+use App\Models\AddToCart;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -24,6 +26,13 @@ class Item extends Model
     }
     public function brand(){
         return $this->belongsTo('App\Models\Brand');
+    }
+    public function addtocart(){
+        return $this->hasMany(AddToCart::class);
+    }
+
+    public function order() {
+        return $this->belongsTo(Order::class);
     }
     public static function search($search)
     {
